@@ -34,7 +34,7 @@ type RecProps = {
 export default function Recs(p: RecProps) {
   return (
     <div className="rec-container">
-      {p.recs.map((r, i) => <RecCard
+      {p.recs.sort((a, b) => a.rank - b.rank).map((r, i) => <RecCard
         {...r}
         onClear={p.onClear}
       />

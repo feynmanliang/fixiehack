@@ -1,1 +1,1 @@
-export type Message = { from: 'sender' | 'receiver', content: string };
+export type Message = { from: 'system' | 'user', content: string };

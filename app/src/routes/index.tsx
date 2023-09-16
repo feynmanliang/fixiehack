@@ -1,5 +1,4 @@
 import Chatbox from './chatbox';
-import { Rec } from 'recommendations';
 import { Message } from './types';
 import { createSignal } from 'solid-js';
 import Recs from './recommendations';
@@ -24,8 +23,8 @@ const rs = [
 ];
 
 const ms = [
-  { from: 'sender', content: "lkj;laskdjf"},
-  { from: 'receiver', content: "lkj;laskdjf"},
+  { from: 'user', content: "lkj;laskdjf"},
+  { from: 'system', content: "lkj;laskdjf"},
 ];
 
 export default function Home() {
