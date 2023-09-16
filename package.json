@@ -1,0 +1,5 @@
+{
+	"dependencies": {
+		"@fixieai/fixie": "^1.2.1"
+	}
+}
