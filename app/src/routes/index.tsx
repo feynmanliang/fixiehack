@@ -1,5 +1,6 @@
 import Chatbox from './chatbox';
-import sendChatMessage from '~/lib/sendChatMessage';
+// import sendChatMessage from '~/lib/sendChatMessage';
+import { askQuestionOrMakeInitialRecommendation } from '~/sidekick_client';
 import { Message } from '~/types';
 import { createSignal } from 'solid-js';
 import Recs, {Rec} from './recommendations';
@@ -9,7 +10,7 @@ const rs = [
   {
     logo: 'https://images.crunchbase.com/image/upload/c_lpad,h_170,w_170,f_auto,b_white,q_auto:eco,dpr_1/erj8ala3t51wlfs40wjr',
     summary: "aldskfjadlkfjsdlfj lsdfkj adlsfkj asdflkj  asdflkj",
-    rank: 1,
+    rank: 3,
   },
   {
     logo: 'https://images.crunchbase.com/image/upload/c_lpad,h_170,w_170,f_auto,b_white,q_auto:eco,dpr_1/erj8ala3t51wlfs40wjr',
@@ -30,7 +31,8 @@ export default function Home() {
     // TODO send to chatbot
     const newMessages = [...messages(), { role: 'user', content: t }];
     setMessages(newMessages);
-    sendChatMessage(newMessages)
+    // sendChatMessage(newMessages)
+    askQuestionOrMakeInitialRecommendation(newMessages)
     .then(x => {
         console.log(x);
       });

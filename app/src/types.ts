@@ -1,1 +1,1 @@
-export type Message = { role: 'system' | 'user', content: string };
+export type Message = { role: 'system' | 'assistant' | 'user', content: string };
