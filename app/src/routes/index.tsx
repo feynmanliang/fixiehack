@@ -1,7 +1,7 @@
 import Chatbox from './chatbox';
 import { Message } from './types';
 import { createSignal } from 'solid-js';
-import Recs from './recommendations';
+import Recs, {Rec} from './recommendations';
 import './main.css'
 
 const rs = [
