@@ -1,5 +1,6 @@
 import Chatbox from './chatbox';
-import { Message } from './types';
+import sendChatMessage from '~/lib/sendChatMessage';
+import { Message } from '~/types';
 import { createSignal } from 'solid-js';
 import Recs, {Rec} from './recommendations';
 import './main.css'
@@ -22,18 +23,17 @@ const rs = [
   },
 ];
 
-const ms = [
-  { from: 'user', content: "lkj;laskdjf"},
-  { from: 'system', content: "lkj;laskdjf"},
-];
-
 export default function Home() {
-  const [messages, setMessages] = createSignal(ms);
+  const [messages, setMessages] = createSignal([]);
 
   const sendMessage = (t: string) => {
     // TODO send to chatbot
-    const newMessages = [...messages(), { from: 'sender', content: t }];
+    const newMessages = [...messages(), { role: 'user', content: t }];
     setMessages(newMessages);
+    sendChatMessage(newMessages)
+    .then(x => {
+        console.log(x);
+      });
   };
 
   const clearRec = (r: Rec) => {

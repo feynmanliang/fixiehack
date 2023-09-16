@@ -24,7 +24,6 @@ export default function Chatbox(props: ChatboxProps) {
       />
       <button className="btn btn-active btn-primary" onClick={() => {
         props.sendMessage(text());
-        setText("");
       }}>send</button>
     </div>
   );

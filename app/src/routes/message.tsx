@@ -1,10 +1,10 @@
-import { Message } from './types';
+import { Message } from '~/types';
 
 type MessageProps = {
   message: Message
 };
 export default function MessageUI({message}: MessageProps) {
-  const location = message.from === 'user' ? 'chat-start' : 'chat-end';
+  const location = message.role === 'user' ? 'chat-start' : 'chat-end';
   return (
     <div className={`chat ${location}`}>
       <div className="chat-bubble">{message.content}</div>
