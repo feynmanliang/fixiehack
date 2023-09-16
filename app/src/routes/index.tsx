@@ -23,13 +23,8 @@ const rs = [
   },
 ];
 
-const ms = [
-  { role: 'user', content: "lkj;laskdjf"},
-  { role: 'system', content: "lkj;laskdjf"},
-];
-
 export default function Home() {
-  const [messages, setMessages] = createSignal(ms);
+  const [messages, setMessages] = createSignal([]);
 
   const sendMessage = (t: string) => {
     // TODO send to chatbot
