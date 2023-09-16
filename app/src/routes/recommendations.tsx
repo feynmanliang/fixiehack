@@ -1,4 +1,4 @@
-type Rec = {
+export type Rec = {
   logo: string,
   summary: string,
   rank: number,
@@ -29,13 +29,14 @@ function RecCard(p: RecCardProps) {
 
 type RecProps = {
   recs: Rec[];
+  onClear: (r: Rec) => void
 };
 export default function Recs(p: RecProps) {
   return (
     <div className="rec-container">
-      {p.recs.map(r => <RecCard
+      {p.recs.map((r, i) => <RecCard
         {...r}
-        onClear={() => console.log("clearing", r)}
+        onClear={p.onClear}
       />
       )}
     </div>
