@@ -1,0 +1,40 @@
+main {
+  height: 100%;
+}
+
+.messages-box {
+  height: 500px;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.message {
+  border: 1px solid lightblue;
+  border-radius: 5px;
+  padding: 10px;
+  margin: 5px 0px;
+}
+
+.left-message {
+  text-align: left;
+}
+
+.right-message {
+  text-align: right;
+}
+
+.chat-input {
+  padding: 20px;
+  border-top: 1px solid;
+  display: inline-block;
+  width: 80%;
+}
+
+.chat-submit {
+  float:right;
+  padding: 20px;
+  border: 1px solid;
+  display: block;
+  width: 20%;
+}
