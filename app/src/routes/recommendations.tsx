@@ -1,6 +1,7 @@
 export type Rec = {
   logo: string,
-  summary: string,
+  pros: string,
+  cons: string
   rank: number,
 };
 
@@ -11,17 +12,24 @@ type RecCardProps = Rec & {
 function RecCard(p: RecCardProps) {
   return (
     <div className="card card-side bg-base-100 shadow-xl">
-      <figure><img className="logo" src={p.logo} /></figure>
+      <figure class="min-w-[100px]"><img className="logo" src={p.logo} /></figure>
       <div className="rank">
         {p.rank}
       </div>
       <div className="card-body">
+        <h1>{p.name}</h1>
+
+        <div>pros</div>
         <p>
-          {p.summary}
+          {p.pros}
         </p>
-        <div className="card-actions justify-end">
+        <div>cons</div>
+        <p>
+          {p.cons}
+        </p>
+        {/*<div className="card-actions justify-end">
           <button onClick={p.onClear} className="btn btn-primary">Clear</button>
-        </div>
+        </div>*/}
       </div>
     </div>
   );

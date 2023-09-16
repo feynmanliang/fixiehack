@@ -1,10 +1,11 @@
 import Chatbox from './chatbox';
 // import sendChatMessage from '~/lib/sendChatMessage';
-import { askQuestionOrMakeInitialRecommendation } from '~/sidekick_client';
+import { askQuestionOrMakeInitialRecommendation, refineList } from '~/sidekick_client';
 import { Message } from '~/types';
 import { createSignal } from 'solid-js';
 import Recs, {Rec} from './recommendations';
 import './main.css'
+
 
 const rs = [
   {
@@ -26,16 +27,79 @@ const rs = [
 
 export default function Home() {
   const [messages, setMessages] = createSignal([]);
+  const [recs, setRecs] = createSignal([]);
 
-  const sendMessage = (t: string) => {
-    // TODO send to chatbot
+  const sendMessage = async (t: string) => {
     const newMessages = [...messages(), { role: 'user', content: t }];
     setMessages(newMessages);
-    // sendChatMessage(newMessages)
-    askQuestionOrMakeInitialRecommendation(newMessages)
-    .then(x => {
-        console.log(x);
+      // TODO 'refine'
+
+
+    const products = (await import('~/data.json')).default;
+
+    if (recs && recs().length) {
+      const x = await refineList(newMessages, recs());
+      const res = JSON.parse(x.data).map(d => {
+        const product = products.find(x => x.id == d.id-1);
+        return {
+          name: product.name,
+          // name: d.name,
+          rank: d.rating,
+          logo: product.Image,
+          pros: d.Pros,
+          cons: d.Cons,
+        };
+      })
+      setRecs(res);
+      const resp = {
+        content: "Sure. Here are my revised recommendations.",
+        role: 'assistant'
+      };
+      setMessages([...messages(), resp]);
+    } else {
+      askQuestionOrMakeInitialRecommendation(newMessages)
+      .then(x => {
+          console.log(x);
+          switch (x.type) {
+            case 'recs':
+              const res = JSON.parse(x.data).map(d => {
+                const product = products.find(x => x.id == d.id-1);
+                return {
+                  name: product.name,
+                  // name: d.name,
+                  rank: d.rating,
+                  logo: product.Image,
+                  pros: d.Pros,
+                  cons: d.Cons,
+                };
+              })
+              setRecs(res);
+              const resp = {
+                content: "Sure. Here are some of my recommendations.",
+                role: 'assistant'
+              };
+              setMessages([...messages(), resp]);
+              break;
+
+            case 'error':
+              alert(x.data);
+              break;
+
+            case 'clarification':
+              const asstResponse = {
+                content: x.data,
+                role: 'assistant'
+              };
+              const msgWithAst = [...messages(), asstResponse];
+              setMessages(msgWithAst);
+              break;
+
+            default:
+              return;
+          }
+
       });
+    }
   };
 
   const clearRec = (r: Rec) => {
@@ -48,7 +112,7 @@ export default function Home() {
         messages={messages() as Message[]}
         sendMessage={sendMessage}
       />
-      <Recs recs={rs} onClear={clearRec}/>
+      <Recs recs={recs()} onClear={clearRec}/>
     </main>
   );
 }
