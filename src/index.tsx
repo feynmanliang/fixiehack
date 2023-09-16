@@ -1,34 +1,26 @@
+import { UseTools } from 'ai-jsx/batteries/use-tools';
 import { ChatCompletion, UserMessage } from 'ai-jsx/core/completion';
 import { AssistantMessage, ConversationHistory, SystemMessage, renderToConversation } from 'ai-jsx/core/conversation';
+import { FixieAPIContext } from 'ai-jsx/batteries/fixie';
+import { OpenAIClient } from 'ai-jsx/lib/openai';
 
-export default async (_: any, { render }: any) => {
+export default async (_: any, { render, getContext }: any) => {
+  const { url: apiBaseUrl, authToken } = getContext(FixieAPIContext);
+
   const conversation = await renderToConversation(<ConversationHistory />, render);
+  const metadata = conversation[0].element.props.metadata as any;
 
-  const messages = (conversation[0].element.props.metadata?.messages || []).map((m:any) => {
-    if (m.role == 'system') {
-      return (
-        <SystemMessage>
-          {m.content}
-        </SystemMessage>
-      );
-    } else if (m.role == 'assistant') {
-      return (
-        <AssistantMessage>
-          {m.content}
-        </AssistantMessage>
-      );
-    } else {
-      return (
-        <UserMessage>
-          {m.content}
-        </UserMessage>
-      );
-    }
-  });
-  console.log(messages);
+  const openai = new OpenAIClient({
+    apiKey: authToken,
+    baseURL: new URL('api/openai-proxy/v1', apiBaseUrl).toString(),
+  })
+
+  const response = await openai.chat.completions.create(metadata);
+  console.log(JSON.stringify(response));
+
   return (
-    <ChatCompletion>
-      {messages}
-    </ChatCompletion>
+    <AssistantMessage>
+      {JSON.stringify(response)}
+    </AssistantMessage>
   );
 };
