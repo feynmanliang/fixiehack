@@ -26,10 +26,12 @@ const rs = [
 ];
 
 export default function Home() {
+  const [messageSending, setMessageSending] = createSignal(false);
   const [messages, setMessages] = createSignal([]);
   const [recs, setRecs] = createSignal([]);
 
   const sendMessage = async (t: string) => {
+    setMessageSending(true);
     const newMessages = [...messages(), { role: 'user', content: t }];
     setMessages(newMessages);
       // TODO 'refine'
@@ -39,6 +41,7 @@ export default function Home() {
 
     if (recs && recs().length) {
       const x = await refineList(newMessages, recs());
+      setMessageSending(false);
       const res = JSON.parse(x.data).map(d => {
         const product = products.find(x => x.id == d.id-1);
         return {
@@ -60,6 +63,7 @@ export default function Home() {
       askQuestionOrMakeInitialRecommendation(newMessages)
       .then(x => {
           console.log(x);
+          setMessageSending(false);
           switch (x.type) {
             case 'recs':
               const res = JSON.parse(x.data).map(d => {
@@ -111,6 +115,7 @@ export default function Home() {
       <Chatbox
         messages={messages() as Message[]}
         sendMessage={sendMessage}
+        messageSending={messageSending()}
       />
       <Recs recs={recs()} onClear={clearRec}/>
     </main>

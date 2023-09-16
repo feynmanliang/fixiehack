@@ -3,6 +3,7 @@ import MessageUI from './message';
 import { createSignal } from 'solid-js';
 
 type ChatboxProps = {
+  messageSending: boolean,
   messages: Message[],
   sendMessage: (m: string) => void
 };
@@ -22,9 +23,13 @@ export default function Chatbox(props: ChatboxProps) {
           setText(e.target.value);
         }}
       />
-      <button className="btn btn-active btn-primary" onClick={() => {
+      {props.messageSending
+      ? 
+      <span class="loading loading-spinner loading-lg"></span>
+      : <button className="btn btn-active btn-primary" onClick={() => {
         props.sendMessage(text());
       }}>send</button>
+      }
     </div>
   );
 }
