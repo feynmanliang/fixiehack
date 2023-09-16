@@ -11,7 +11,7 @@ export default function Chatbox(props: ChatboxProps) {
   const [text, setText] = createSignal("");
 
   return (
-    <div>    
+    <div className="chat-container">    
       <div className="messages-box">    
         {props.messages.map(m => <MessageUI message={m} />)}
       </div>    
@@ -22,7 +22,7 @@ export default function Chatbox(props: ChatboxProps) {
           setText(e.target.value);
         }}
       />
-      <button className="chat-submit" onClick={() => {
+      <button className="btn btn-active btn-primary" onClick={() => {
         props.sendMessage(text());
         setText("");
       }}>send</button>

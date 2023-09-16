@@ -24,11 +24,20 @@ main {
   text-align: right;
 }
 
+.rec-container {
+  display: inline-block;
+}
+
+
+.chat-container {
+  display: inline-block;
+}
+
 .chat-input {
   padding: 20px;
   border-top: 1px solid;
   display: inline-block;
-  width: 80%;
+  width: 70%;
 }
 
 .chat-submit {
@@ -37,4 +46,21 @@ main {
   border: 1px solid;
   display: block;
   width: 20%;
+}
+
+.card {
+  display: flex;
+  flex-direction: 'row';
+}
+.short-summary {
+  width:30%;
+}
+.logo {
+
+}
+.rank {
+
+}
+.summary {
+
 }

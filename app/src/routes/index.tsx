@@ -1,7 +1,23 @@
 import Chatbox from './chatbox';
 import { Message } from './types';
 import { createSignal } from 'solid-js';
+import Recs from './recommendations';
 import './main.css'
+
+const rs = [
+  {
+    summary: "aldskfjadlkfjsdlfj lsdfkj adlsfkj asdflkj  asdflkj",
+    rank: 1,
+  },
+  {
+    summary: "aldskfjadlkfjsdlfj lsdfkj adlsfkj asdflkj  asdflkj",
+    rank: 2,
+  },
+  {
+    summary: "aldskfjadlkfjsdlfj lsdfkj adlsfkj asdflkj  asdflkj",
+    rank: 3,
+  },
+];
 
 const ms = [
   { from: 'sender', content: "lkj;laskdjf"},
@@ -18,11 +34,12 @@ export default function Home() {
   };
 
   return (
-    <main class="flex-row">
+    <main class="flex flex-row">
       <Chatbox
         messages={messages() as Message[]}
         sendMessage={sendMessage}
       />
+      <Recs recs={rs} />
     </main>
   );
 }
