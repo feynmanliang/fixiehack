@@ -19,7 +19,7 @@ export default async (_: any, { render, getContext }: any) => {
     },
   ]
 
-  messages.push(conversation[0].element.props.messages)
+  messages.push(conversation[0].element.props.metadata.messages)
 
   const openai = new OpenAIClient({
     apiKey: authToken,
